@@ -6,11 +6,11 @@ require 'commander/import'
 program :version, '0.0.1'
 program :description, 'Pllm'
 
-adb_path = "adb-atomic-developer-bundle/components"
+adb_path = File.join(File.dirname(__FILE__), '..') + "/adb-atomic-developer-bundle/components"
 centos_adb_path = adb_path+"/centos/centos-with-docker"
 rhel_adb_path = adb_path+"/rhel/rhel-with-docker"
 vagrant_base_cmd = "vagrant"
-dockerfile_example_path = "./examples/Dockerfile"
+dockerfile_example_path =  File.join(File.dirname(__FILE__), '..') + "/examples/Dockerfile"
 
 command :new do |c|
   c.syntax = 'cdk new [options]'
@@ -20,15 +20,15 @@ command :new do |c|
   c.option '--name NAME', String, 'Define name of a container'
   c.option '--host TYPE', String, 'Define host to setup to later deployement'
   c.action do |args, options|
-    if options.name && options.host
+    if options.name
       FileUtils.mkdir_p "#{options.name}/host"
       host_vagrant_file_path = ""
       guest_vagrant_file_path = ""
       
       case options.host
-	      when "rhel-atomic"
-	        host_vagrant_file_path = rhel_adb_path+'/atomic-docker-host/Vagrantfile'
-	        guest_vagrant_file_path = rhel_adb_path+'/sample-dev/Vagrantfile'
+	when "rhel-atomic"
+	    host_vagrant_file_path = rhel_adb_path+'/atomic-docker-host/Vagrantfile'
+	    guest_vagrant_file_path = rhel_adb_path+'/sample-dev/Vagrantfile'
         when "rhel-docker"
             host_vagrant_file_path = rhel_adb_path+'/rhel-docker-host/Vagrantfile'
             guest_vagrant_file_path = rhel_adb_path+'/sample-dev/Vagrantfile'
@@ -37,6 +37,9 @@ command :new do |c|
             guest_vagrant_file_path = centos_adb_path+'/sample-dev/Vagrantfile'
         when "centos-docker"
             host_vagrant_file_path = centos_adb_path+'/centos-docker-host/Vagrantfile'
+            guest_vagrant_file_path = centos_adb_path+'/sample-dev/Vagrantfile'
+	else
+	    host_vagrant_file_path = centos_adb_path+'/centos-docker-host/Vagrantfile'
             guest_vagrant_file_path = centos_adb_path+'/sample-dev/Vagrantfile'
       end
       
@@ -67,7 +70,7 @@ command :run do |c|
   c.example 'Run container from Vagrantfile in current directory', 'cdk run'
   c.action do |args, options|
     # Do something or c.when_called Cdk::Commands::List
-    exec("#{vagrant_base_cmd} up")
+    exec("#{vagrant_base_cmd} up --provider=docker")
   end
 end
 
