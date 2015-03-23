@@ -18,7 +18,7 @@ command :new do |c|
   c.description = 'Create directory with container and host configurations'
   c.example 'Create new container configuration with atomic host to deploy', 'cdk new --name Geablestapler --host rhel-atomic'
   c.option '--name NAME', String, 'Define name of a container'
-  c.option '--host TYPE', String, 'Define host to setup to later deployement'
+  c.option '--host TYPE', String, 'Choose host for deployment: rhel-docker, rhel-atomic, centos-docker, centos-atomic'
   c.action do |args, options|
     if options.name
       FileUtils.mkdir_p "#{options.name}/host"
@@ -60,6 +60,26 @@ command :new do |c|
     else
      say "You have to specify name and host"  
     end  
+  end
+end
+
+command :vagrant do |c|
+  c.syntax = 'cdk vagrant [options]'
+  c.summary = 'Get vagrant box'
+  c.example 'Get centos Vagrantbox from atlas and change name to centos-7.0 after', 'cdk vagrant --getbox humaton/centos-7'
+  c.option '--getbox NAME', String, 'image name from atlas.hashicorp.com'
+  c.action do |args, options|
+    # Do something or c.when_called Cdk::Commands::List 'vagrant up humaton/centos-7 --provider libvirt'
+    if options.getbox
+      if system("#{vagrant_base_cmd} box add #{options.getbox}")
+        say("Vagrant box was added")
+      else
+        say("There was a problem with vagrant box import")
+      end
+    else
+      say("You have to specify box to download")
+    end
+
   end
 end
 

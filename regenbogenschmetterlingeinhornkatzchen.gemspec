@@ -7,8 +7,9 @@ Gem::Specification.new do |s|
   s.authors     = ["Tomas Hrcka"]
   s.email       = 'thrcka@redhat.com'
   s.homepage    =
-    'http://rubygems.org/gems/regenbogenschmetterlingeinhornkatzchen'
-  s.license       = 'GPL-v2'
+    'https://github.com/humaton/regenbogenschmetterlingeinhornkatzchen'
+  s.license       = 'GPL-2.0'
+  s.platform      = Gem::Platform::RUBY
 
   # this gemspec is, and parsing out the ignored files from the gitignore.
   # Note that the entire gitignore(5) syntax is not supported, specifically
