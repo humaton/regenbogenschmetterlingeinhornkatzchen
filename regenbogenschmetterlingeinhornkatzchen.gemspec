@@ -1,14 +1,14 @@
 Gem::Specification.new do |s|
   s.name        = 'regenbogenschmetterlingeinhornkatzchen'
-  s.version     = '0.0.0'
+  s.version     = '0.0.1'
   s.date        = '2012-03-23'
   s.summary     = "CDK wrapper"
-  s.description = "Wraper around couple of vagrantfiles and dockerfiles"
+  s.description = "Wraper around couple of vagrant and docker files"
   s.authors     = ["Tomas Hrcka"]
   s.email       = 'thrcka@redhat.com'
   s.homepage    =
-    'http://rubygems.org/gems/hola'
-  s.license       = 'GPL-2'
+    'http://rubygems.org/gems/regenbogenschmetterlingeinhornkatzchen'
+  s.license       = 'GPL-v2'
 
   # this gemspec is, and parsing out the ignored files from the gitignore.
   # Note that the entire gitignore(5) syntax is not supported, specifically

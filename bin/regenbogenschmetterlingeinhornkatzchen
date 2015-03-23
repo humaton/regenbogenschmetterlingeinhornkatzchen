@@ -9,12 +9,12 @@ program :description, 'Pllm'
 adb_path = File.join(File.dirname(__FILE__), '..') + "/adb-atomic-developer-bundle/components"
 centos_adb_path = adb_path+"/centos/centos-with-docker"
 rhel_adb_path = adb_path+"/rhel/rhel-with-docker"
-vagrant_base_cmd = "vagrant"
+vagrant_base_cmd = "VAGRANT_LOG=info vagrant"
 dockerfile_example_path =  File.join(File.dirname(__FILE__), '..') + "/examples/Dockerfile"
 
 command :new do |c|
   c.syntax = 'cdk new [options]'
-  c.summary = 'Create new container' 
+  c.summary = 'Create new container with host'
   c.description = 'Create directory with container and host configurations'
   c.example 'Create new container configuration with atomic host to deploy', 'cdk new Geablestapler --host rhel-atomic'
   c.option '--name NAME', String, 'Define name of a container'
@@ -55,7 +55,7 @@ command :new do |c|
       say "#{options.name} Guest Vagrantfile prepared"
       
       if agree "do you want to generate Dockerfile?", false
-	FileUtils.cp dockerfile_example_path, "./#{options.name}/"
+	      FileUtils.cp dockerfile_example_path, "./#{options.name}/"
       end
     else
      say "You have to specify name and host"  
@@ -76,10 +76,10 @@ end
 
 command :list do |c|
   c.syntax = 'cdk list [options]'
-  c.summary = ''
-  c.description = ''
-  c.example 'description', 'command example'
-  c.option '--some-switch', 'Some switch that does something'
+  c.summary = 'List containers created by CDK'
+  c.description = 'List containers created by CDK'
+  c.example 'List currently active containers', 'cdk list'
+  c.option '--host', 'Docker host to probe'
   c.action do |args, options|
     # Do something or c.when_called Cdk::Commands::List
   end
