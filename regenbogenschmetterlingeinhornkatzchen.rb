@@ -10,7 +10,7 @@ adb_path = "adb-atomic-developer-bundle/components"
 centos_adb_path = adb_path+"/centos/centos-with-docker"
 rhel_adb_path = adb_path+"/rhel/rhel-with-docker"
 vagrant_base_cmd = "vagrant"
-dockerfile = File.open("./examples/Dockerfile")
+dockerfile_example_path = "./examples/Dockerfile"
 
 command :new do |c|
   c.syntax = 'cdk new [options]'
@@ -43,9 +43,16 @@ command :new do |c|
       FileUtils.cp host_vagrant_file_path, "./#{options.name}/host/"
       say "#{options.host} host Vagrantfile prepared"
       FileUtils.cp guest_vagrant_file_path, "./#{options.name}/"
+      
+      text = File.read("./#{options.name}/Vagrantfile")
+      new_contents = text.gsub(/(d.vagrant_vagrantfile[A-Za-z\t . _ = " \/ -]+)/, "d.vagrant_vagrantfile = \"./host/Vagrantfile\"")
+      # To write changes to the file, use:
+      File.open("./#{options.name}/Vagrantfile", "w") {|file| file.puts new_contents }
+      
       say "#{options.name} Guest Vagrantfile prepared"
+      
       if agree "do you want to generate Dockerfile?", false
-	      dockerfile.write("./Dockerfile")
+	FileUtils.cp dockerfile_example_path, "./#{options.name}/"
       end
     else
      say "You have to specify name and host"  
@@ -54,15 +61,13 @@ command :new do |c|
 end
 
 command :run do |c|
-  c.syntax = 'cdk run [options]'
-  c.summary = ''
-  c.description = ''
-  c.example 'description', 'command example'
-  c.option '--dir', String, 'Directory with container project'
+  c.syntax = 'cdk run'
+  c.summary = 'Run container on host using vagrant'
+  c.description = 'This command invokes vagrant up in current directory'
+  c.example 'Run container from Vagrantfile in current directory', 'cdk run'
   c.action do |args, options|
     # Do something or c.when_called Cdk::Commands::List
-  dir = options.dir if options.dir
-  
+    exec("#{vagrant_base_cmd} up")
   end
 end
 
