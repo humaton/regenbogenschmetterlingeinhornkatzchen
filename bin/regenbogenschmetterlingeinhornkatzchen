@@ -16,7 +16,7 @@ command :new do |c|
   c.syntax = 'cdk new [options]'
   c.summary = 'Create new container with host'
   c.description = 'Create directory with container and host configurations'
-  c.example 'Create new container configuration with atomic host to deploy', 'cdk new Geablestapler --host rhel-atomic'
+  c.example 'Create new container configuration with atomic host to deploy', 'cdk new --name Geablestapler --host rhel-atomic'
   c.option '--name NAME', String, 'Define name of a container'
   c.option '--host TYPE', String, 'Define host to setup to later deployement'
   c.action do |args, options|
@@ -87,10 +87,10 @@ end
 
 command :destroy do |c|
   c.syntax = 'cdk destroy [options]'
-  c.summary = ''
-  c.description = ''
-  c.example 'description', 'command example'
-  c.option '--some-switch', 'Some switch that does something'
+  c.summary = 'Delete cdk data'
+  c.description = 'rm -rf of project directory with possibility to cleanup vagrant machines associated with container'
+  c.example 'Delete project directory and cleanup vagrant machines', 'cdk destroy --vagrant'
+  c.option '--vagrant', 'Destroy vagrant machines'
   c.action do |args, options|
     # Do something or c.when_called Cdk::Commands::Destroy
   end
