@@ -11,6 +11,18 @@ centos_adb_path = adb_path+"/centos/centos-with-docker"
 rhel_adb_path = adb_path+"/rhel/rhel-with-docker"
 vagrant_base_cmd = "VAGRANT_LOG=info vagrant"
 dockerfile_example_path =  File.join(File.dirname(__FILE__), '..') + "/examples/Dockerfile"
+dockerfile_example_script_path =  File.join(File.dirname(__FILE__), '..') + "/examples/start.sh"
+
+command :init do |c|
+  c.syntax = 'cdk init [options]'
+  c.summary = 'Initialize CDK on this machine'
+  c.description = 'Specify attributes of this machine'
+  c.example 'Initialize environment with remote centos docker machine as default setting for new projects', 'cdk init --dockerprovider docker --os centos'
+  c.option '--host', 'Docker host to probe'
+  c.action do |args, options|
+    # Do something or c.when_called Cdk::Commands::List
+  end
+end
 
 command :new do |c|
   c.syntax = 'cdk new [options]'
@@ -56,6 +68,7 @@ command :new do |c|
       
       if agree "do you want to generate Dockerfile?", false
 	      FileUtils.cp dockerfile_example_path, "./#{options.name}/"
+        FileUtils.cp dockerfile_example_script_path, "./#{options.name}/start.sh"
       end
     else
      say "You have to specify name and host"  
