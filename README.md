@@ -46,6 +46,8 @@ $regenbogenschmetterlingeinhornkatzchen --help
 
 TODO:
 - [ ]Download boxes
+- [] Plug in DevAssistant (where? how?)
 - [ ]Generate vagrantfiles based on currently available images
-- [ ]Pass config options to deocker provider
+- [ ]Pass config options to docker provider
+- [ ]Use config options to setup default setting for new projects
 - [ ]Keep track about CDK projects generated/runned by cdk
