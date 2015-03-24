@@ -2,6 +2,7 @@
 
 require 'rubygems'
 require 'commander/import'
+require 'cdkconfig'
 
 program :version, '0.0.1'
 program :description, 'Pllm'
@@ -13,16 +14,6 @@ vagrant_base_cmd = "VAGRANT_LOG=info vagrant"
 dockerfile_example_path =  File.join(File.dirname(__FILE__), '..') + "/examples/Dockerfile"
 dockerfile_example_script_path =  File.join(File.dirname(__FILE__), '..') + "/examples/start.sh"
 
-command :init do |c|
-  c.syntax = 'cdk init [options]'
-  c.summary = 'Initialize CDK on this machine'
-  c.description = 'Specify attributes of this machine'
-  c.example 'Initialize environment with remote centos docker machine as default setting for new projects', 'cdk init --dockerprovider docker --os centos'
-  c.option '--host', 'Docker host to probe'
-  c.action do |args, options|
-    # Do something or c.when_called Cdk::Commands::List
-  end
-end
 
 command :new do |c|
   c.syntax = 'cdk new [options]'
@@ -67,11 +58,11 @@ command :new do |c|
       say "#{options.name} Guest Vagrantfile prepared"
       
       if agree "do you want to generate Dockerfile?", false
-	      FileUtils.cp dockerfile_example_path, "./#{options.name}/"
+	FileUtils.cp dockerfile_example_path, "./#{options.name}/"
         FileUtils.cp dockerfile_example_script_path, "./#{options.name}/start.sh"
       end
     else
-     say "You have to specify name and host"  
+     say "You have to specify name"  
     end  
   end
 end
@@ -118,7 +109,7 @@ command :list do |c|
   end
 end
 
-command :destroy do |c|
+ command :destroy do |c|
   c.syntax = 'cdk destroy [options]'
   c.summary = 'Delete cdk data'
   c.description = 'rm -rf of project directory with possibility to cleanup vagrant machines associated with container'
@@ -127,6 +118,7 @@ command :destroy do |c|
   c.action do |args, options|
     # Do something or c.when_called Cdk::Commands::Destroy
   end
+ end
 
  command :host do |c|
   c.syntax = 'sdc host [options]'
@@ -143,8 +135,27 @@ command :destroy do |c|
     end  
     # Do something or c.when_called Cdk::Commands::List
   end
-end
-  
+ end
 
-end
+ command :initialize do |c|
+  c.syntax = 'cdk initialize [options]'
+  c.summary = 'Initialize CDK configuration'
+  c.description = 'Create .cdk/config.yaml with some important preconfigured data'
+  c.action do |args, options|
+      say("Setup options")
+      docker_host = ask("Docker default host: [docker,atomic] ")
+      unless ["docker","atomic"].include? docker_host
+        docker_host = ask("Docker default host: [docker,atomic] ")
+      end
+      docker_host_os = ask("Docker host default OS: [centos,rhel] ")
+      unless ["centos","rhel"].include? docker_host_os
+        docker_host_os = ask("Docker default host: [centos,rhel] ")
+      end
+      vagrant = system("which vagrant")
+      conf = Cdkconfig.new(docker_host.to_s, docker_host_os.to_s, vagrant.to_s)
+      conf.save_config
+  end
+ end  
+
+
 
