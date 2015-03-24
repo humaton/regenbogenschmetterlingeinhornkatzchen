@@ -26,7 +26,13 @@ gem install regenbogenschmetterlingeinhornkatzchen-0.0.2.gem
 $gem install regenbogenschmetterlingeinhornkatzchen
 ```
 ##Usage
-regenbogenschmetterlingeinhornkatzchen uses vagrant so you can use usual vagrant commands once inside project directory.
+Initialize CDK environment:
+
+```bash
+$regenbogenschmetterlingeinhornkatzchen initialize
+```
+You will be asked couple of questions about your development setup. 
+Followed by download and import of vagrant box.
 
 Install CDK vagrant plugins:
 ```bash
