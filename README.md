@@ -35,8 +35,8 @@ $regenbogenschmetterlingeinhornkatzchen vagrant --install-cdk-plugins
 
 Create new project with centos-atomic backend for container deployement:
 ```bash
-$regenbogenschmetterlingeinhornkatzchen new --name gabelspahler --host centos-atomic
-$cd gabelspahler
+$regenbogenschmetterlingeinhornkatzchen new --name gabelstapler --host centos-atomic
+$cd gabelstapler
 $regenbogenschmetterlingeinhornkatzchen run
 ```
 More info:
