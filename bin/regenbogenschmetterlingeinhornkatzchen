@@ -76,13 +76,14 @@ command :vagrant do |c|
   c.action do |args, options|
     # Do something or c.when_called Cdk::Commands::List 'vagrant up humaton/centos-7 --provider libvirt'
     if options.getbox
+
       if system("#{vagrant_base_cmd} box add #{options.getbox}")
         say("Vagrant box was added")
       else
         say("There was a problem with vagrant box import")
       end
     end
-    
+
     if options.install_cdk_plugins
       plugins = ["vagrant-registration","vagrant-atomic"]
       plugins.each do |p|
@@ -151,17 +152,29 @@ end
   c.description = 'Create .cdk/config.yaml with some important preconfigured data'
   c.action do |args, options|
       say("Setup options")
+      
       docker_host = ask("Docker default host: [docker,atomic] ")
       unless ["docker","atomic"].include? docker_host
         docker_host = ask("Docker default host: [docker,atomic] ")
       end
+      
       docker_host_os = ask("Docker host default OS: [centos,rhel] ")
       unless ["centos","rhel"].include? docker_host_os
-        docker_host_os = ask("Docker default host: [centos,rhel] ")
+        docker_host_os = ask("Docker host default OS: [centos,rhel] ")
       end
+      
+      virt_backend = ask("Prefered virtualisation method: [libvirt,vbox,wmvare] ")
+      unless ["libvirt","vbox","wmvare,openstack"].include? virt_backend
+        virt_backend = ask("Prefered virtualisation method: [libvirt,vbox,wmvare] ")
+      end
+
       vagrant = system("which vagrant")
-      conf = Cdkconfig.new(docker_host.to_s, docker_host_os.to_s, vagrant.to_s)
+      conf = Cdkconfig.new(docker_host.to_s, docker_host_os.to_s, vagrant.to_s, virt_backend.to_s)
       conf.save_config
+
+      if ask("Download centos #{docker_host} box for provider: #{virt_backend} ")
+        system("vagrant box add #{conf.default_centos_box} --name centos-atomic-7")
+      end
   end
  end  
 
