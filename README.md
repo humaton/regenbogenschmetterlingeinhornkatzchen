@@ -25,14 +25,19 @@ $gem install regenbogenschmetterlingeinhornkatzchen
 ##Usage
 regenbogenschmetterlingeinhornkatzchen uses vagrant so you can use usual vagrant commands once inside project directory.
 
-Install CDK vagrant plugins
+Install CDK vagrant plugins:
 ```bash
 $regenbogenschmetterlingeinhornkatzchen vagrant --install-cdk-plugins
 ```
 
-Create new project with centos-atomic backend for container deployement
+Create new project with centos-atomic backend for container deployement:
 ```bash
 $regenbogenschmetterlingeinhornkatzchen new --name gabelspahler --host centos-atomic
 $cd gabelspahler
 $regenbogenschmetterlingeinhornkatzchen run
 ```
+More info:
+```bash
+$regenbogenschmetterlingeinhornkatzchen --help
+```
+
