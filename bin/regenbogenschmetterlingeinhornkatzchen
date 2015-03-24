@@ -10,7 +10,7 @@ program :description, 'Pllm'
 adb_path = File.join(File.dirname(__FILE__), '..') + "/adb-atomic-developer-bundle/components"
 centos_adb_path = adb_path+"/centos/centos-with-docker"
 rhel_adb_path = adb_path+"/rhel/rhel-with-docker"
-vagrant_base_cmd = "VAGRANT_LOG=info vagrant"
+vagrant_base_cmd = "vagrant" #"VAGRANT_LOG=info vagrant"
 dockerfile_example_path =  File.join(File.dirname(__FILE__), '..') + "/examples/Dockerfile"
 dockerfile_example_script_path =  File.join(File.dirname(__FILE__), '..') + "/examples/start.sh"
 
@@ -72,6 +72,7 @@ command :vagrant do |c|
   c.summary = 'Get vagrant box'
   c.example 'Get centos Vagrantbox from atlas and change name to centos-7.0 after', 'cdk vagrant --getbox humaton/centos-7'
   c.option '--getbox NAME', String, 'image name from atlas.hashicorp.com'
+  c.option '--install-cdk-plugins', 'Install vagrant plugins for better CDK experience'
   c.action do |args, options|
     # Do something or c.when_called Cdk::Commands::List 'vagrant up humaton/centos-7 --provider libvirt'
     if options.getbox
@@ -80,8 +81,15 @@ command :vagrant do |c|
       else
         say("There was a problem with vagrant box import")
       end
-    else
-      say("You have to specify box to download")
+    end
+    
+    if options.install_cdk_plugins
+      plugins = ["vagrant-registration","vagrant-atomic"]
+      plugins.each do |p|
+	say("Installing plugins...")
+        say("Vagrant registration plugin installed") if system("#{vagrant_base_cmd} plugin install vagrant-registration")
+	say("Vagrant atomic plugin installed") if system("#{vagrant_base_cmd} plugin install vagrant-atomic")	
+      end      
     end
 
   end
