@@ -160,9 +160,9 @@ end
       vagrant = `which vagrant`
       conf = Cdkconfig.new(docker_host.to_s, docker_host_os.to_s, vagrant.to_s, virt_backend.to_s)
       conf.save_config
-      download = ask("Download centos atomic box for provider: #{virt_backend} ")
+      download = agree("Download centos atomic box for provider: #{virt_backend}? [Y/N] ", false)
       
-      if download.include? 'y' 
+      if download
         system("vagrant box add #{conf.default_centos_box} --name centos-atomic-7")
       end
   end

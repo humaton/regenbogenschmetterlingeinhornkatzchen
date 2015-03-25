@@ -4,7 +4,7 @@ class Cdkconfig
   attr_accessor :default_docker_provider, :containers, :vagrant,
                 :default_docker_provider_os, :default_virt_provider,
                 :default_virt_provider,
-                :centos_atomic_libvirt, :centos_atomic_vbox
+                :centos_atomic_libvirt, :centos_atomic_vbox,
 		:subscribtion_username, :subscribtion_password
 
 
