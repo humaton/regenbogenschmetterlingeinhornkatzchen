@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'regenbogenschmetterlingeinhornkatzchen'
-  s.version     = '0.0.2'
+  s.version     = '0.0.3'
   s.date        = '2012-03-23'
   s.summary     = "CDK wrapper"
   s.description = "Wraper around couple of vagrant and docker files"

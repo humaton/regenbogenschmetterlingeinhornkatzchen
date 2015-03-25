@@ -4,7 +4,7 @@ require 'rubygems'
 require 'commander/import'
 require 'cdkconfig'
 
-program :version, '0.0.1'
+program :version, '0.0.3'
 program :description, 'Pllm'
 
 adb_path = File.join(File.dirname(__FILE__), '..') + "/adb-atomic-developer-bundle/components"
