@@ -130,7 +130,7 @@ end
  end
 
  command :host do |c|
-  c.syntax = 'sdc host [options]'
+  c.syntax = 'cdk host [options]'
   c.summary = ''
   c.description = ''
   c.example 'description', 'command example'
@@ -153,26 +153,16 @@ end
   c.action do |args, options|
       say("Setup options")
       
-      docker_host = ask("Docker default host: [docker,atomic] ")
-      unless ["docker","atomic"].include? docker_host
-        docker_host = ask("Docker default host: [docker,atomic] ")
-      end
+      docker_host = choose("Docker default host?", :docker, :atomic)
+      docker_host_os = choose("Docker host default OS?", :centos, :rhel )
+      virt_backend = choose("Prefered virtualisation method?", :libvirt, :vbox, :wmvare)
       
-      docker_host_os = ask("Docker host default OS: [centos,rhel] ")
-      unless ["centos","rhel"].include? docker_host_os
-        docker_host_os = ask("Docker host default OS: [centos,rhel] ")
-      end
-      
-      virt_backend = ask("Prefered virtualisation method: [libvirt,vbox,wmvare] ")
-      unless ["libvirt","vbox","wmvare,openstack"].include? virt_backend
-        virt_backend = ask("Prefered virtualisation method: [libvirt,vbox,wmvare] ")
-      end
-
-      vagrant = system("which vagrant")
+      vagrant = `which vagrant`
       conf = Cdkconfig.new(docker_host.to_s, docker_host_os.to_s, vagrant.to_s, virt_backend.to_s)
       conf.save_config
-
-      if ask("Download centos #{docker_host} box for provider: #{virt_backend} ")
+      download = ask("Download centos atomic box for provider: #{virt_backend} ")
+      
+      if download.include? 'y' 
         system("vagrant box add #{conf.default_centos_box} --name centos-atomic-7")
       end
   end
