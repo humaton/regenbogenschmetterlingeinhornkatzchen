@@ -5,10 +5,14 @@ class Cdkconfig
                 :default_docker_provider_os, :default_virt_provider,
                 :default_virt_provider,
                 :centos_atomic_libvirt, :centos_atomic_vbox
+		:subscribtion_username, :subscribtion_password
 
 
-  def initialize(default_provider, default_provider_os = "centos", vagrant = false, default_virt_provider = "virtualbox")
-    self.default_docker_provider = default_provider
+  def initialize(default_docker_provider, default_provider_os = "centos",
+                 vagrant = false, default_virt_provider = "virtualbox",
+                 subscribtion_username = nil, subscribtion_password = nil)
+    
+    self.default_docker_provider = default_docker_provider
     self.default_docker_provider_os = default_provider_os
     self.vagrant = vagrant
     self.default_virt_provider = default_virt_provider
@@ -30,8 +34,7 @@ class Cdkconfig
   end
 
   def save_config
-    File.open(File.expand_path("~")+'/.cdk/config.yaml', 'w') {|f| f.write(YAML.dump(self)) }
-    #File.open('/path/to/file.extension', 'w') {|f| f.write(Marshal.dump(m)) }
+    File.open(File.expand_path("~")+'/.cdk/config.yaml', 'w') {|f| f.write(YAML.dump(self)) }    
   end
 
   def create_config_dir
