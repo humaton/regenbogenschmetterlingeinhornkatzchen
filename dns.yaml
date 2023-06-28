@@ -1,0 +1,4 @@
+- name: Update pi
+  hosts: all
+  become: yes
+  serial: 1

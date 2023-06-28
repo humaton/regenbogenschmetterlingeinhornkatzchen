@@ -1,0 +1,7 @@
+- name: Check pihole
+  uri:
+    url: http://{{ pihole_ipv4 }}/admin
+  register: result
+  until: result.status == 200
+  retries: 5
+  delay: 10
