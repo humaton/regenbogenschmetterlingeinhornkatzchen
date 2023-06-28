@@ -2,3 +2,5 @@
   hosts: all
   become: yes
   serial: 1
+  roles:
+    - updates
