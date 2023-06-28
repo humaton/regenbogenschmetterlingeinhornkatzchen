@@ -1,3 +1,0 @@
-[submodule "adb-atomic-developer-bundle"]
-	path = adb-atomic-developer-bundle
-	url = git@github.com:projectatomic/adb-atomic-developer-bundle.git
