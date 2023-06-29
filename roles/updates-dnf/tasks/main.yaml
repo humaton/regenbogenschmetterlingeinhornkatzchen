@@ -1,0 +1,5 @@
+- name: Upgrade dnf packages
+  ansible.builtin.dnf:
+  name: "*"
+  state: latest
+  autoremove: yes

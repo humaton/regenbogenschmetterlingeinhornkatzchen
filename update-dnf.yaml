@@ -1,0 +1,6 @@
+- name: Update dnf
+  hosts: dnf
+  become: yes
+  serial: 1
+  roles:
+    - updates-dnf
