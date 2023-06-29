@@ -1,4 +1,4 @@
-- name: Update pi
+- name: Update apt
   hosts: all
   become: yes
   serial: 1
