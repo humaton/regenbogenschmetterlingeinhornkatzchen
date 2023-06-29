@@ -14,3 +14,8 @@
 - name: Reboot
   reboot:
   when: reboot_required.stat.exists
+
+- name: Upgrade dnf packages
+  ansible.builtin.dnf:
+  name: "*"
+  state: latest
