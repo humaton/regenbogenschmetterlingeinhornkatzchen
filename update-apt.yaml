@@ -1,5 +1,5 @@
 - name: Update apt
-  hosts: all
+  hosts: apt
   become: yes
   serial: 1
   roles:
